@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import java.io.*;
 
 import Graphic.Entity;
+import Main.GamePanel;
 
 public class Connection {
     private Socket socket;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
+    private GamePanel gamePanel;
 
-    public Connection() {
+    public Connection(GamePanel gamePanel) {
         try {
             socket = new Socket("localhost", 8888);
             dataInputStream = new DataInputStream(socket.getInputStream());
@@ -20,6 +22,7 @@ public class Connection {
             System.out.println(e.getMessage());
             e.getStackTrace();
         }
+        this.gamePanel = gamePanel;
     }
 
     public Entity[] needDraw() {
@@ -40,7 +43,7 @@ public class Connection {
         }
         Entity[] entities = new Entity[receiveEntitiesInfo.size()];
         for (int i = 0; i < entities.length; i++) {
-            entities[i] = new Entity(receiveEntitiesInfo.get(i));
+            entities[i] = new Entity(receiveEntitiesInfo.get(i), gamePanel);
         }
         return entities;
     }

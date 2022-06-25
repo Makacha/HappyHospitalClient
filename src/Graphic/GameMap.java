@@ -15,14 +15,14 @@ public class GameMap {
     private Tile path[];
     private Tile building[];
     private Image pathImage, buildingImage;
-    private int row,col;
-    
-    public GameMap(GamePanel gamePanel){
+    private int row, col;
+
+    public GameMap(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         pathImage = new Image(5, 5, "res/Map/path.png");
-        buildingImage = new Image(4, 4,"res/Map/building.png");
-        row = GamePanel.screenRow;
-        col = GamePanel.screenCol;
+        buildingImage = new Image(4, 4, "res/Map/building.png");
+        row = GamePanel.gameRow;
+        col = GamePanel.gameCol;
         path = new Tile[col * row];
         building = new Tile[col * row];
         setPath();
@@ -37,7 +37,7 @@ public class GameMap {
         return row;
     }
 
-    public void setBuilding(){
+    public void setBuilding() {
         try {
             InputStream is = new FileInputStream("res/Map/building.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -47,7 +47,7 @@ public class GameMap {
                 for (int i = 0; i < col; ++i) {
                     building[j * col + i] = new Tile();
                     building[j * col + i].setValue(Integer.parseInt(num[i]));
-                    if(building[j * col + i].getValue() != 0){
+                    if (building[j * col + i].getValue() != 0) {
                         building[j * col + i].setBlock(true);
                     }
                 }
@@ -58,24 +58,25 @@ public class GameMap {
         }
     }
 
-    public Tile getBuilding(int id){
+    public Tile getBuilding(int id) {
         return building[id];
     }
 
-    public void drawBuilding(Graphics2D g2){
+    public void drawBuilding(Graphics2D g2) {
         int tileSize = GamePanel.tileSize;
-        
-        for(int j = 0; j < row; ++j){
-            for(int i = 0; i < col; ++i){
-                if(building[j * col + i].getValue() != 0){
+
+        for (int j = 0; j < row; ++j) {
+            for (int i = 0; i < col; ++i) {
+                if (building[j * col + i].getValue() != 0) {
                     BufferedImage image = buildingImage.getImage(building[j * col + i].getValue());
-                    g2.drawImage(image, i * tileSize, j * tileSize, tileSize, tileSize, null);
+                    g2.drawImage(image, i * tileSize - gamePanel.getXOffSet(),
+                            j * tileSize - gamePanel.getYOffSet(), tileSize, tileSize, null);
                 }
             }
         }
     }
 
-    public void setPath(){
+    public void setPath() {
         try {
             InputStream is = new FileInputStream("res/Map/path.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -97,13 +98,13 @@ public class GameMap {
         return path[id];
     }
 
-    public void drawPath(Graphics2D g2){
+    public void drawPath(Graphics2D g2) {
         int tileSize = GamePanel.tileSize;
         int cntframe = this.gamePanel.getCntFrame();
         cntframe %= 32;
 
-        for(int j = 0; j < row; ++j){
-            for(int i = 0; i < col; ++i){
+        for (int j = 0; j < row; ++j) {
+            for (int i = 0; i < col; ++i) {
                 if (path[j * col + i].getValue() != 0) {
                     BufferedImage image = null;
                     switch (path[j * col + i].getValue()) {
@@ -147,7 +148,8 @@ public class GameMap {
                             image = pathImage.getImage(25);
                             break;
                     }
-                    g2.drawImage(image, i * tileSize, j * tileSize, tileSize, tileSize, null);
+                    g2.drawImage(image, i * tileSize - gamePanel.getXOffSet(),
+                            j * tileSize - gamePanel.getYOffSet(), tileSize, tileSize, null);
                 }
             }
         }

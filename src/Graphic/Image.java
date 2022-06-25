@@ -13,6 +13,7 @@ public class Image {
 
     public static final Image PLAYER = new Image("res/Sprite/player.png");
     public static final Image OPPONENT = new Image("res/Sprite/opponent.png");
+    public static final Image NPC = new Image("res/Sprite/NPC.png");
 
     public Image(int imageCol, int imageRow, String path) {
         this.imageCol = imageCol;
