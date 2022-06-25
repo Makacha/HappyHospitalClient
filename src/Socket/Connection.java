@@ -56,6 +56,7 @@ public class Connection {
     }
 
     public void disconect() {
+        sendRequest("finish");
         try {
             dataInputStream.close();
             dataOutputStream.close();
