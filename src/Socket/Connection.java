@@ -58,6 +58,18 @@ public class Connection {
         }
     }
 
+    public String getData() {
+        String receiveData;
+        try {
+            receiveData = dataInputStream.readUTF();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.getStackTrace();
+            receiveData = "";
+        }
+        return receiveData;
+    }
+
     public void disconect() {
         sendRequest("finish");
         try {

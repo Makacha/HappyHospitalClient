@@ -11,9 +11,9 @@ public class Image {
     private int imageCol;
     private int imageRow;
 
-    public static final Image PLAYER = new Image("res/Sprite/player.png");
-    public static final Image OPPONENT = new Image("res/Sprite/opponent.png");
-    public static final Image NPC = new Image("res/Sprite/NPC.png");
+    public static final Image PLAYER = new Image("res/Sprite/player.png", 2);
+    public static final Image OPPONENT = new Image("res/Sprite/opponent.png", 2);
+    public static final Image NPC = new Image("res/Sprite/NPC.png", 1);
 
     public Image(int imageCol, int imageRow, String path) {
         this.imageCol = imageCol;
@@ -34,10 +34,10 @@ public class Image {
         }
     }
 
-    public Image(String path) {
+    public Image(String path, int scale) {
         try {
             BufferedImage allImage = ImageIO.read(new File(path));
-            int originalTileSize = GamePanel.originalTileSize;
+            int originalTileSize = GamePanel.originalTileSize * scale;
             int col = allImage.getWidth() / originalTileSize;
             int row = allImage.getHeight() / originalTileSize;
             images = new BufferedImage[row * col + 1];
